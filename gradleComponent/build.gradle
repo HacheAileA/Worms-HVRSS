@@ -1,0 +1,113 @@
+plugins {
+    id 'java'           // Activation du plugin Java de gradle
+    id 'application'    // Permet de définir un mainClass et la tâche run
+    id 'checkstyle'     // Vérification de style 
+    id 'jacoco'
+    id 'com.github.ksoichiro.console.reporter' version '0.6.3'
+}
+
+
+group = ''  // Nom d'identification du projet
+version = '2.1'               // Version du projet
+
+
+java {
+    toolchain {                                       // Version de java utilisée pour la compilation
+        languageVersion = JavaLanguageVersion.of(17)  // Choix de Java 17 pour maximiser la portabilité du jeu
+    }                                                 // Compatible avec version >= Java 17 < Java 25
+}
+
+application {
+    mainClass = 'app.Main'     // Classe principale pour l'exécution
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'app.Main')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Dépendances pour les tests
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0'
+    checkstyle 'com.puppycrawl.tools:checkstyle:10.13.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['../src/main/java']
+        }
+        resources {
+            srcDirs = ['../src/main/resources']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['../src/test/java']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()  // Utilisation de JUnit
+    finalizedBy jacocoTestReport
+    
+    if (System.getenv("CI") != null) {
+        println "CI detected: skipping tests starting with GuiTest"
+        exclude '**/GuiTest*'
+    }
+}
+
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+
+    classDirectories.setFrom(
+        fileTree('build/classes/java/main') {
+            exclude '**/test/**'
+        }
+    )
+
+    sourceDirectories.setFrom(files('../src/main/java'))
+    executionData.setFrom(fileTree(buildDir).include('jacoco/test.exec'))
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'  //Eviter certains bugs si jamais des caractères spéciaux sont utilisés
+}
+
+checkstyle {
+    configFile = file('../config/checkstyle/checkstyle.xml')   // Accès vers le fichier de configuration du checkstyle
+}
+
+configurations.checkstyle {
+    resolutionStrategy {
+        force 'com.google.guava:guava:33.0.0-jre'
+        exclude group: 'com.google.collections', module: 'google-collections'
+    }
+}
+
+run {                   // Définit l'entrée standard
+    standardInput = System.in
+    logging.captureStandardOutput LogLevel.QUIET
+    systemProperty 'file.encoding', 'UTF-8'
+
+    if (project.hasProperty('appArgs')) {
+        args = project.appArgs.split(',')
+    }
+}

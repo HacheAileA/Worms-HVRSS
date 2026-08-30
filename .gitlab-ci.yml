@@ -1,0 +1,85 @@
+image: gradle:8.5.0-jdk17
+
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+
+stages:
+  - quality
+  - build
+  - docs
+
+cache:
+  key:
+    files:
+      - gradleComponent/build.gradle
+  paths:
+    - .gradle/wrapper/
+    - .gradle/caches/
+
+before_script:
+  - git remote prune origin
+  - chmod +x gradleComponent/gradlew
+  - |
+    if [[ "$CI_RUNNER_TAGS" == *"local"* ]]; then
+      echo "Runner avec tag 'local' détecté. Configuration sans proxy."
+      export GRADLE_OPTS="-Dorg.gradle.daemon=false"
+    else
+      echo "Runner sans tag 'local'. Configuration avec proxy."
+      export GRADLE_OPTS="-Dorg.gradle.daemon=false -Dhttps.proxyHost=$PROXY_HOST -Dhttps.proxyPort=$PROXY_PORT"
+    fi
+
+test:
+  stage: quality
+  script:
+    - ./gradleComponent/gradlew -p gradleComponent test
+  artifacts:
+    when: always
+    reports:
+      junit: gradleComponent/build/test-results/test/**/*.xml
+    expire_in: 1 week
+
+checkstyle:
+  stage: quality
+  script:
+    - ./gradleComponent/gradlew -p gradleComponent checkstyleMain
+  artifacts:
+    when: always
+    reports:
+      codequality: gradleComponent/build/reports/checkstyle/main.xml
+    expire_in: 1 week
+
+build: 
+  stage: build
+  script:
+    - ./gradleComponent/gradlew -p gradleComponent clean build -x test
+  artifacts:
+    paths:
+      - gradleComponent/build/libs/*.jar
+    expire_in: 1 week
+
+docs:
+  stage: docs
+  script:
+    - ./gradleComponent/gradlew -p gradleComponent javadoc
+  artifacts:
+    paths:
+      - gradleComponent/build/docs/javadoc/
+    expire_in: 1 week
+
+release:
+  stage: docs
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - echo "Release v1.$CI_PIPELINE_IID"
+
+  release:
+    tag_name: "v1.$CI_PIPELINE_IID"
+    name: "Release de la v1.$CI_PIPELINE_IID"
+    description: "Release de la v1.$CI_PIPELINE_IID"
+    assets:
+      links:
+        - name: "hvrss.v1.$CI_PIPELINE_IID.jar"
+          url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/gradleComponent/build/libs/hvrss.v1.$CI_PIPELINE_IID.jar?job=build"
+          link_type: "package"

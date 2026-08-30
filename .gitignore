@@ -1,0 +1,17 @@
+
+# REPERTOIRES
+build/
+bin/
+.gradle/
+.vscode/
+.settings/
+.idea/
+out/
+# saves/
+
+#FICHIERS
+
+*.class
+.env
+.project
+.classpath
