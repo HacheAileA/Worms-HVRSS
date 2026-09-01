@@ -1,6 +1,7 @@
 # Guide de contribution au projet « Worms »
 
 Avant de commencer, veuillez lire attentivement les consignes ci-dessous, ainsi que le [README](./README.md).
+CE PROJET PROVIENT D'UNE INSTANCE PRIVEE GITLAB
 
 ## Table des matières
 
@@ -55,11 +56,7 @@ Cette convention permet de facilement identifier le type de contribution et de m
 
 1. **Cloner** le dépôt. Dans le terminal, se placer dans le dossier souhaité et exécuter la commande suivante :
 
-   ```bash
-   git clone https://moule.informatique.u-paris.fr/mesnildr/projet-worms
-   ```
-
-2. [Créer](https://moule.informatique.u-paris.fr/mesnildr/projet-worms/-/issues/new) un **ticket** pour proposer votre suggestion, ou [traiter](https://moule.informatique.u-paris.fr/mesnildr/projet-worms/-/issues) un ticket existant. N'oubliez pas d'y ajouter les bons labels et jalon.
+2. Créer un **ticket** pour proposer votre suggestion, ou traiter un ticket existant. N'oubliez pas d'y ajouter les bons labels et jalon.
 
 3. Créer une **branche** dédiée à vos modifications :
 
@@ -92,7 +89,7 @@ Cette convention permet de facilement identifier le type de contribution et de m
    git push -u origin nom-de-la-branche
    ```
 
-7. [Ouvrez](https://moule.informatique.u-paris.fr/mesnildr/projet-worms/-/merge_requests/new) une MR vers la branche appropriée (se reporter au [README](./README.md)).
+7. Ouvrez une MR vers la branche appropriée (se reporter au [README](./README.md)).
 
 ## Mettre à jour le projet
 
@@ -157,6 +154,6 @@ MR soumise → Relecteurs assignés → Relecture & commentaires
 
 Si vous avez une question, vérifiez d’abord que la réponse ne se trouve pas dans le [README](./README.md), la **documentation du projet**, ou dans un **ticket**.
 
-Si vous n'avez pas de réponse à votre question, [ouvrez](https://moule.informatique.u-paris.fr/mesnildr/projet-worms/-/issues/new) un **ticket** sur le dépôt en décrivant clairement votre problème ou demande.
+Si vous n'avez pas de réponse à votre question, ouvrez un **ticket** sur le dépôt en décrivant clairement votre problème ou demande.
 
 N’hésitez pas à participer aux discussions pour clarifier ou enrichir les réponses.
