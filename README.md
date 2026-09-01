@@ -1,5 +1,7 @@
 # Projet Worms — Université Paris Cité (L2 Informatique 2025–2026) - G13-E7
 
+CE PROJET PROVIENT D'UNE INSTANCE PRIVEE GITLAB
+
 ## Table des matières
 - [Description du projet](#description-du-projet)
 - [Architecture](#architecture)
@@ -208,8 +210,6 @@ Pour lancer les tests :
 
 Les auteurs sont consignés dans le fichier [AUTHORS](./AUTHORS.md).
 
-Projet réalisé dans le cadre des UE Conduite de Projet et Programmation Orientée Objet (Université Paris Cité – 2025–2026).  
-Serveur GitLab : https://moule.informatique.u-paris.fr/mesnildr/projet-worms
-
+Projet réalisé dans le cadre des UE Conduite de Projet et Programmation Orientée Objet (Université Paris Cité – 2025–2026).
 
 Projet académique — Licence libre MIT (voir fichier [LICENSE](./LICENSE)).
