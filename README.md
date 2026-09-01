@@ -1,6 +1,4 @@
-# Projet Worms — Université Paris Cité (L2 Informatique 2025–2026) - G13-E7
-
-CE PROJET PROVIENT D'UNE INSTANCE PRIVEE GITLAB
+# Projet Worms — Université Paris Cité (L2 Informatique 2025–2026)
 
 ## Table des matières
 - [Description du projet](#description-du-projet)
