@@ -1,7 +1,6 @@
 # Guide de contribution au projet « Worms »
 
 Avant de commencer, veuillez lire attentivement les consignes ci-dessous, ainsi que le [README](./README.md).
-CE PROJET PROVIENT D'UNE INSTANCE PRIVEE GITLAB
 
 ## Table des matières
 
