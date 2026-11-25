@@ -563,6 +563,9 @@ public class Map {
      * @since 1.1
      */
     public boolean isWater(double x, double y) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+            return false;
+        }
         return this.grid[(int)y][(int)x] == '~';
     }
 
@@ -577,6 +580,9 @@ public class Map {
      * @since 1.1
      */
     public boolean isWorm(double x, double y) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+            return false;
+        }
         return this.grid[(int)y][(int)x] >= '1' && this.grid[(int)y][(int)x] <= '8';
     }
 
